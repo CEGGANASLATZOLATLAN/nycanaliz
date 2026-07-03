@@ -26,7 +26,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation, PillowWriter
 from matplotlib.collections import PatchCollection
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Polygon
+
+# klasik ısı haritası paleti: yeşil → sarı → turuncu → kırmızı (en yoğun)
+ISI_PALETI = LinearSegmentedColormap.from_list(
+    "klasik_isi", ["#00b34d", "#ffd600", "#ff6d00", "#e60000", "#8f0000"])
 
 from kaynak.db import baglan
 from kaynak.viz import FIGURES
@@ -103,7 +108,7 @@ def main(yil: int) -> None:
         parcalar, facecolor="#181826", edgecolor="#3a3a55",
         linewidth=0.7, zorder=0))
 
-    isi = ax.imshow(kareler[0], origin="lower", cmap="magma",
+    isi = ax.imshow(kareler[0], origin="lower", cmap=ISI_PALETI,
                     extent=[*LON_ARALIK, *LAT_ARALIK],
                     vmin=0, vmax=tavan,
                     alpha=np.clip(kareler[0] / tavan * 2.8, 0, 0.95),
