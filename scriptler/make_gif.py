@@ -15,15 +15,22 @@ from pathlib import Path
 PROJE_KOKU = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJE_KOKU))
 
+import json
+
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.collections import PatchCollection
+from matplotlib.patches import Polygon
 
 from kaynak.db import baglan
 from kaynak.viz import FIGURES
+
+BOROUGHS = PROJE_KOKU / "veri" / "esleme" / "nyc_boroughs.geojson"
+# kaynak: github.com/dwillis/nyc-maps (NYC Open Data türevi)
 
 
 def main(yil: int) -> None:
@@ -62,6 +69,19 @@ def main(yil: int) -> None:
     ax.set_facecolor("#101018")
     ax.set_aspect(1 / np.cos(np.radians(40.7)))
     ax.axis("off")
+
+    # arka plan: borough siluetleri (koyu dolgu, silik sınır)
+    if BOROUGHS.exists():
+        parcalar = []
+        for f in json.loads(BOROUGHS.read_text())["features"]:
+            geom = f["geometry"]
+            halkalar = ([geom["coordinates"]] if geom["type"] == "Polygon"
+                        else geom["coordinates"])
+            parcalar += [Polygon(np.array(h[0])) for h in halkalar]
+        ax.add_collection(PatchCollection(
+            parcalar, facecolor="#1b1b2c", edgecolor="#34344c",
+            linewidth=0.6, zorder=0))
+
     sc = ax.scatter(meta["lon"], meta["lat"], s=boyut, c=norm[:, 0],
                     cmap="magma", vmin=0, vmax=1, linewidths=0)
     baslik = ax.set_title("", fontsize=15, fontweight="bold", color="#eeeeee")
