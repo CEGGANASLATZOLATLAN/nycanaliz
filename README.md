@@ -24,12 +24,7 @@ Python ile işlendi.
 ![İstasyon kümeleri](ciktilar/grafikler/2023/fig_06_istasyon_kumeleri.png)
 *İstasyonların günlük ritmi kaç tipe ayrılıyor?*
 
-## Saatin merkez üssü: Manhattan'da kim nerede takılıyor?
-
-Mutlak sayıya bakılsa her saatin şampiyonu Times Square çıkıyor — turist
-seli 7/24 dinmiyor. Onun yerine her istasyonun kendi gününde o saatin
-payına bakınca (`sql/08_saatin_merkezi.sql`) Manhattan'ın günlük göçü
-ortaya çıkıyor:
+## En yoğun
 
 | Saat | Hafta içi | Hafta sonu |
 |------|-----------|------------|
@@ -41,13 +36,6 @@ ortaya çıkıyor:
 | 17–18 | Midtown ofisleri — 5 Av/53 St (E,M), Rockefeller Ctr (B,D,F,M) | Rockefeller Ctr, Hudson Yards (7) |
 | 19–22 | SoHo — Prince St (R,W); East Village — 3 Av (L) | Village — W 4 St; Broadway tiyatroları — 50 St (1) |
 | 23 | Village geri devralıyor — W 4 St | Village — W 4 St |
-
-Tablo kendi kendine bir Manhattan günü anlatıyor: sabah şehrin kuzeyindeki
-yatak odası mahalleleri işe akıyor, öğlen müze ve kampüsler devrede, mesai
-bitince Midtown bir saat içinde boşalıyor — 5 Av/53 St istasyonu günlük
-yolcusunun neredeyse dörtte birini tek saatte görüyor — ve gece anahtar
-Village ile Lower East Side'a teslim ediliyor.
-
 
 ## Veri
 
