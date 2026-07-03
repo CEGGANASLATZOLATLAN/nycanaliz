@@ -11,4 +11,7 @@ SELECT
 FROM yolculuk
 WHERE transit_mode = 'subway'
 GROUP BY 1
+-- verideki tek tük hatalı etiketli satırlar (ör. 2 yolculuk gösteren
+-- "Staten Island subway") oranı ‰1000'e fırlatıyor; hacim filtresi şart
+HAVING SUM(ridership) > 1_000_000
 ORDER BY gece_endeksi DESC;
