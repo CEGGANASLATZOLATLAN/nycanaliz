@@ -24,8 +24,6 @@ Python ile işlendi.
 ![İstasyon kümeleri](ciktilar/grafikler/2023/fig_06_istasyon_kumeleri.png)
 *İstasyonların günlük ritmi kaç tipe ayrılıyor?*
 
-İnteraktif gece haritası `ciktilar/haritalar/` altında (indirip tarayıcıda açın).
-Tüm yılların grafikleri `ciktilar/grafikler/` altında.
 
 ## Veri
 
