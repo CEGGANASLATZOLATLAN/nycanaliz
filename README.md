@@ -1,4 +1,5 @@
 # NYC Analiz
+Amaç: Ulaşım verilerini kullanarak yorum yapmak. Yorumları grafiğe dökmek.
 
 ![24 saatte New York'un nabzı](ciktilar/grafikler/nabiz_isi_24saat_2023.gif)
 
