@@ -1,0 +1,9 @@
+duckdb
+pandas
+pyarrow
+matplotlib
+seaborn
+plotly
+folium
+jupyter
+scikit-learn
