@@ -91,8 +91,8 @@ def main(yil: int) -> None:
     kareler = np.array(kareler)
     tavan = kareler.max()  # renk ölçeği tüm karelere sabit
 
-    fig, ax = plt.subplots(figsize=(8, 8.2), facecolor="#0d0d16")
-    ax.set_facecolor("#0d0d16")
+    fig, ax = plt.subplots(figsize=(8, 8.2), facecolor="#ffffff")
+    ax.set_facecolor("#ffffff")
     ax.set_xlim(LON_ARALIK)
     ax.set_ylim(LAT_ARALIK)
     ax.set_aspect(1 / np.cos(np.radians(40.7)))
@@ -105,7 +105,7 @@ def main(yil: int) -> None:
                     else geom["coordinates"])
         parcalar += [Polygon(np.array(h[0])) for h in halkalar]
     ax.add_collection(PatchCollection(
-        parcalar, facecolor="#181826", edgecolor="#3a3a55",
+        parcalar, facecolor="#e8e8ee", edgecolor="#b8b8c8",
         linewidth=0.7, zorder=0))
 
     isi = ax.imshow(kareler[0], origin="lower", cmap=ISI_PALETI,
@@ -113,11 +113,11 @@ def main(yil: int) -> None:
                     vmin=0, vmax=tavan,
                     alpha=np.clip(kareler[0] / tavan * 2.8, 0, 0.95),
                     zorder=1, interpolation="bilinear")
-    baslik = ax.set_title("", fontsize=15, fontweight="bold", color="#eeeeee")
+    baslik = ax.set_title("", fontsize=15, fontweight="bold", color="#222222")
     fig.text(0.5, 0.04, "Saatlik ortalama yolcu yoğunluğu (hafta içi) — "
-             "renk ölçeği tüm gün sabit", ha="center", fontsize=8, color="#888888")
+             "renk ölçeği tüm gün sabit", ha="center", fontsize=8, color="#777777")
     fig.text(0.97, 0.01, f"Kaynak: MTA — data.ny.gov ({yil})",
-             ha="right", fontsize=7, color="#888888")
+             ha="right", fontsize=7, color="#777777")
 
     def kare(saat):
         isi.set_data(kareler[saat])
