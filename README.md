@@ -1,6 +1,6 @@
 # NYC Analiz
 
-![24 saatte New York'un nabzı](ciktilar/grafikler/nabiz_24saat_2023.gif)
+![24 saatte New York'un nabzı](ciktilar/grafikler/nabiz_isi_24saat_2023.gif)
 
 MTA'in saatlik metro yolculuk verisiyle New York'un günlük ritmi.
 2022 başından 2024 Temmuz'una kadar tüm istasyon kayıtları DuckDB ve
