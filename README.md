@@ -2,8 +2,8 @@
 
 MTA'in saatlik metro yolculuk verisiyle New York'un günlük ritmi.
 [İstanbul Analiz](https://github.com/CEGGANASLATZOLATLAN/istanbulanaliz)
-projesinin kardeşi — hedef, iki şehrin nabzını aynı yöntemle çıkarıp
-kıyaslamak: New York gerçekten hiç uyumuyor mu?
+projesinin kardeşi: aynı yöntem, başka bir şehir — New York gerçekten
+hiç uyumuyor mu?
 
 🚧 Çalışma sürüyor. İlk çıktılar yakında.
 
