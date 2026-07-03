@@ -58,8 +58,8 @@ python scriptler/make_gif.py 2023                   # animasyonlu harita
 
 ```
 ├── sql/         # DuckDB sorguları
-├── kaynak/         # ingest, db, viz
-├── scriptler/     # veri boru hattı ve grafik/harita üreticileri
-├── data/        # işlenmiş veri (repoda değil)
-└── ciktilar/     # grafikler ve haritalar
+├── kaynak/      # ingest, db, viz
+├── scriptler/   # veri boru hattı ve grafik/harita üreticileri
+├── veri/        # işlenmiş veri (repoda değil)
+└── ciktilar/    # grafikler ve haritalar
 ```
