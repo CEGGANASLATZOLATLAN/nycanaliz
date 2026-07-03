@@ -118,16 +118,22 @@ def fig_03_yillik_seyir(con, yil):
     df["tarih"] = pd.to_datetime(df["tarih"])
     fig, ax = plt.subplots(figsize=(13, 6))
     ax.plot(df["tarih"], df["yolcu"] / 1e6,
-            color=RENKLER["notr"], linewidth=0.8, alpha=0.7, label="Günlük yolcu")
+            color=RENKLER["notr"], linewidth=0.8, alpha=0.45, label="Günlük yolcu")
     ax.plot(df["tarih"], df["hareketli_ort_7g"] / 1e6,
             color=RENKLER["hafta içi"], linewidth=2.2, label="7 günlük hareketli ort.")
-    for tarih in SEYIR_ETIKETLERI.get(yil, []):
+    ax.margins(x=0.02)
+    son_gun = df["tarih"].max()
+    for i, tarih in enumerate(SEYIR_ETIKETLERI.get(yil, [])):
         eslesen = df.loc[df["tarih"] == pd.Timestamp(tarih), "yolcu"]
         if eslesen.empty:
             continue
-        ax.annotate(OZEL_GUNLER[yil][tarih],
-                    (pd.Timestamp(tarih), float(eslesen.iloc[0]) / 1e6),
-                    textcoords="offset points", xytext=(0, -28), ha="center",
+        t = pd.Timestamp(tarih)
+        # yıl kenarındaki etiketler içeri hizalanır, ardışıklar dikeyde şaşırtılır
+        ha = "right" if (son_gun - t).days < 12 else (
+             "left" if (t - df["tarih"].min()).days < 12 else "center")
+        ax.annotate(OZEL_GUNLER[yil][tarih], (t, float(eslesen.iloc[0]) / 1e6),
+                    textcoords="offset points",
+                    xytext=(0, -28 - 14 * (i % 2)), ha=ha,
                     fontsize=8, color=RENKLER["vurgu"],
                     arrowprops=dict(arrowstyle="-", color=RENKLER["vurgu"], lw=0.8))
     ax.set_title(f"{yil}'te New York metrosu ne zaman durdu, ne zaman coştu?")
@@ -160,24 +166,35 @@ def fig_04_anomali(con, yil):
                color=RENKLER["vurgu"], label="Anomali (|z| ≥ 2)")
     ax.axhline(2, ls="--", lw=0.8, color="gray")
     ax.axhline(-2, ls="--", lw=0.8, color="gray")
+    ax.margins(x=0.02)
     ozel = OZEL_GUNLER.get(yil, {})
     en_uc = set(anomali.reindex(anomali["z"].abs()
                                 .sort_values(ascending=False).index).head(6).index)
+    son_gun, ilk_gun = df["tarih"].max(), df["tarih"].min()
+    ozel_gunler = [pd.Timestamp(g) for g in ozel]
     sayac = 0
     for idx, r in anomali.iterrows():
         gun = str(r["tarih"].date())
         if gun in ozel:
             etiket = ozel[gun]
         elif idx in en_uc:
+            # sözlükteki bir olayın 3 gün yakınındaki kuyruk günlerini etiketleme
+            if ozel_gunler and min(abs((r["tarih"] - t).days)
+                                   for t in ozel_gunler) <= 3:
+                continue
             etiket = tr_tarih(r["tarih"])
         else:
             continue
-        kaydir = 11 * (sayac % 2)
+        # ardışık etiketleri dikeyde şaşırt, yıl kenarındakileri içeri hizala
+        kaydir = 11 * (sayac % 3)
         sayac += 1
         yukari = r["z"] > 0
+        kenarda = (son_gun - r["tarih"]).days < 12
         ax.annotate(etiket, (r["tarih"], r["z"]),
                     textcoords="offset points",
-                    xytext=(6, (8 + kaydir) if yukari else (-14 - kaydir)),
+                    xytext=(-6 if kenarda else 6,
+                            (8 + kaydir) if yukari else (-14 - kaydir)),
+                    ha="right" if kenarda else "left",
                     fontsize=8)
     ax.set_title(f"Hangi günler 'normal' değildi? ({yil})")
     ax.set_xlabel("")
@@ -193,6 +210,7 @@ def fig_05_gece(con, yil):
     df = sql_dosyasi_calistir(con, SQL / "05_gece_endeksi.sql").df()
     df = df.sort_values("gece_endeksi")
     ax1.barh(df["borough"], df["gece_endeksi"], color=RENKLER["hafta içi"])
+    ax1.set_xlim(0, df["gece_endeksi"].max() * 1.18)  # ‰ etiketi bara sığsın
     for _, r in df.iterrows():
         ax1.text(r["gece_endeksi"] + 0.5, r["borough"],
                  f"‰{r['gece_endeksi']:.0f}", va="center", fontsize=9)
@@ -212,6 +230,7 @@ def fig_05_gece(con, yil):
     ax2.barh(ist["istasyon"], ist["endeks"], color=RENKLER["vurgu"])
     ax2.set_title("Gecenin istasyonları")
     ax2.set_xlabel("Gece yolcu payı (binde)")
+    fig.tight_layout()  # uzun istasyon adları sol panele taşmasın
     kaydet(fig, "fig_05_gece", yil)
 
 
@@ -287,6 +306,7 @@ def fig_07_fare_class(con, yil):
     ax2.set_ylabel("Günlük yolcudaki pay (%)")
     ax2.set_xticks(range(0, 24, 2))
     ax2.legend(fontsize=9)
+    fig.tight_layout()
     kaydet(fig, "fig_07_fare_class", yil)
 
 
