@@ -3,6 +3,8 @@ Amaç: Ulaşım verilerini kullanarak yaşam yorumu yapmak. Yorumları grafiğe 
 
 ![24 saatte New York'un nabzı](ciktilar/grafikler/nabiz_isi_24saat_2023.gif)
 
+![New York haritası](nyc.png)
+
 MTA'in saatlik metro yolculuk verisiyle New York'un günlük ritmi.
 2022 başından 2024 Temmuz'una kadar tüm istasyon kayıtları DuckDB ve
 Python ile işlendi.
